@@ -1,7 +1,7 @@
 # DashAppExample
 ## Dash examples to test features
 
-- Pattern-Matching features for callbacks
+### Pattern-Matching features for callbacks
   1. Index will be set as dictionary with keys shown below: 
      - id={'type': .. , 'id': .., 'specifier': ..} 
         - where type can be either 'input', 'multiinput' and 'container' and much 
@@ -26,7 +26,7 @@
 - 'visibility' = component affected can be set whether it will be visible or not
 - 'disabled' = value of a disabled component cannot be changed and user will 
   have no access to the component
-- 'activate' = checklist, activated when True ([1]), False ([ ]), for df.
+- 'activate' = checklist, activated when True ([1]), False ([ ]); for df.
   row_input, keyword arguments (widget='checklist', activated=True) to set 
   checklist to True
    
