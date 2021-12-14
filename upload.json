@@ -1,0 +1,12 @@
+{
+  "input_1" : 0.5,
+  "input_2" : 2.3,
+  "input_3" : 4.5,
+  "input_4" : 100.0,
+  "input2_1" : [0.82, 0.82],
+  "input3_1" : [1.5, 1.5],
+  "input3_2" : [1.5, 1.5],
+  "checklist" : true,
+  "dropdown1" : "SG",
+  "dropdown2" : "SF"
+}
