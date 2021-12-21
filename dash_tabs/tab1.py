@@ -11,45 +11,47 @@ from dash_app import app
 import dash_layout as dl
 
 
+input_1 = \
+    {'label': 'Input1', 'unit': '-', 'size_label': 'xl', 'ids': 'input1',
+     'value': np.round(np.random.rand(), 2)}
+input_2 = \
+    {'label': 'Input2', 'unit': '', 'size_label': 'xl', 'ids': 'input2',
+     'value': np.round(np.random.rand(), 2)}
+input_3 = \
+    {'label': 'Input3', 'unit': 'm', 'size_label': 'xl', 'ids': 'input3',
+     'value': np.round(np.random.rand(), 2)}
+input_4 = \
+    {'label': 'Input4', 'unit': 'm²', 'size_label': 'xl', 'ids': 'input4',
+     'value': np.round(np.random.rand(), 2)}
+sub_frame1 = \
+    {'children': 'Type: Input, Specifier: False',
+     'className': 'title divider', 'size_label': 'xl',
+     'widget_dicts': [input_1, input_2, input_3, input_4]}
+input2 = \
+    {'label': 'Input5', 'types': 'multiinput', 'size_label': 'l', 'unit': 'km',
+     'value': np.round(np.random.rand(), 2), 'ids': 'input5', 'number': 2}
+sub_frame2 = \
+    {'children': 'Type: Input, Specifier: 1 Output Component with 2 Inputs',
+     'className': 'title divider', 'size_label': 'l',
+     'widget_dicts': [input2]}
+label_inp3 = \
+    {'widget': 'label', 'size_label': 's', 'value': ['Input A', 'Input B']}
+input3 = \
+    {'label': 'Input6', 'types': 'multiinput', 'size_label': 's', 'unit': 'm',
+     'value': [[54, 54], [60, 60]], 'ids': [['input6a', [0, 1]],
+                                            ['input6b', [2, 3]]], 'number': 4}
+sub_frame3 = \
+    {'children': 'Type: Input, Specifier: 2 Output Components with 4 Inputs',
+     'className': 'title divider', 'size_label': 's',
+     'widget_dicts': [label_inp3, input3]}
+
+tab_dict = {'title': 'Tab1',
+            'sub_frame_dicts': [sub_frame1, sub_frame2, sub_frame3]}
+
+
 tab_layout = \
-    html.Div(
-        [html.Div('Type: Input, Specifier: False', className='title divider'),
-         dl.row_input(f'Input_1', value=np.round(np.random.rand(), 2),
-                      unit='-', size_label='xl', ids='input_1'),
-         # {type: input, id: input_1, specifier: False}
-         dl.row_input(f'Input_2', value=np.round(np.random.rand(), 2),
-                      size_label='xl', ids='input_2'),
-         # {type: input, id: input_2, specifier: False}
-         dl.row_input(f'Input_3', value=np.round(np.random.rand(), 2),
-                      unit='m', size_label='xl', ids='input_3'),
-         # {type: input, id: input_3, specifier: False}
-         dl.row_input(f'Input_4', value=np.round(np.random.rand(), 2),
-                      unit='m²', size_label='xl', ids='input_4'),
-         # {type: input, id: input_4, specifier: False}
+    html.Div(dl.frame(tab_dict), className='neat-spacing')
 
-         html.Div('Type: Input, Specifier: 1 Output Component with 2 Inputs',
-                  className='title divider'),
-         html.Div(  # total 4 ids components, output should be 2 ids components
-             dl.row_input(f'Input2', types='multiinput', size_label='l',
-                          unit='km', value=np.round(np.random.rand(), 2),
-                          ids=['input2_1a', 'input2_1b'])),
-         # {type: multiinput, id: input2_1a, specifier: False},
-         # {type: multiinput, id: input2_2a, specifier: False}
-
-         html.Div('Type: Input, Specifier: 2 Output Components with 4 Inputs',
-                  className='title divider'),
-         html.Div(  # total 8 ids components, output should be 4 ids components
-             dl.row_input(f'Input3', types='multiinput', size_label='m',
-                          unit='s', value=np.round(np.random.rand(), 2),
-                          ids=['input3_1a', 'input3_2a',
-                               'input3_1b', 'input3_2b']))],
-        # {type: multiinput, id: input3_1a, specifier: False},
-        # {type: multiinput, id: input3_1b, specifier: False},
-        # {type: multiinput, id: input3_2a, specifier: False},
-        # {type: multiinput, id: input3_2b, specifier: False},
-
-        className='neat-spacing')
-
-
+# print(tab_layout)
 # @app.callback(
 #

@@ -58,8 +58,8 @@ app.layout = \
     Output('table', 'data'),
     Output('sim-button', 'n_clicks'),
     Input('sim-button', 'n_clicks'),
-    Input({'type': 'input', 'id': ALL, 'specifier': ALL}, 'value'),
-    Input({'type': 'multiinput', 'id': ALL, 'specifier': False}, 'value'),
+    State({'type': 'input', 'id': ALL, 'specifier': ALL}, 'value'),
+    State({'type': 'multiinput', 'id': ALL, 'specifier': False}, 'value'),
     State({'type': 'input', 'id': ALL, 'specifier': ALL}, 'id'),
     State({'type': 'multiinput', 'id': ALL, 'specifier': False}, 'id'),
 )
@@ -68,10 +68,12 @@ def run_simulation(n_click, inputs, inputs2, ids, ids2):
     if 'sim-button.n_clicks' not in ctx and n_click is None:
         raise PreventUpdate
     else:
-        id2 = {id_l['id'][:-1]: num for num, id_l in enumerate(ids2)}
-        id_list = [id_l['id'] for id_l in ids]+list(id2.keys())
-
-        inputs2 = df.multi_inputs(inputs2)
+        # id2 = {id_l['id'][:-2]: num for num, id_l in enumerate(ids2)}  # :-1
+        # # remove multiple ids for multiinputs
+        # id_list = [id_l['id'] for id_l in ids]+list(id2.keys())
+        #
+        # inputs2 = df.multi_inputs(inputs2)
+        # print(inputs2)
         new_inputs = []
         for val in inputs+inputs2:
             new_val = list(df.unstringify(val))[0]
@@ -84,10 +86,17 @@ def run_simulation(n_click, inputs, inputs2, ids, ids2):
                         new_val = bool(new_val)
             new_inputs.append(new_val)
 
+        new_ids = [id_l['id'] for id_l in ids] + [id_l['id'] for id_l in ids2]
+        dict_data = {}
+        for id_l, v_l in zip(new_ids, new_inputs):
+            dict_data.update({id_l: v_l})
+        new_dict_data = df.multi_inputs(dict_data)
+
         index = [{'id': 'IDs', 'name': 'IDs'}, {'id': 'Value', 'name': 'Value'}]
         datas = [{'IDs': id_l, 'Value': val} if not isinstance(val, list)
-                 else {'IDs': id_l, 'Value': f'[{val[0]},{val[1]}]'}
-                 for id_l, val in zip(id_list, new_inputs)]
+                 else {'IDs': id_l, 'Value': f'{[v for v in val]}'}
+                 for id_l, val in
+                 zip(new_dict_data.keys(), new_dict_data.values())]
 
         return index, datas, None
 
@@ -98,35 +107,42 @@ def run_simulation(n_click, inputs, inputs2, ids, ids2):
     Output('upload-file', 'contents'),
     Input('upload-file', 'contents'),
     State({'type': 'input', 'id': ALL, 'specifier': ALL}, 'id'),
-    State({'type': 'multiinput', 'id': ALL, 'specifier': False}, 'id')
+    State({'type': 'multiinput', 'id': ALL, 'specifier': False}, 'id'),
+    State({'type': 'input', 'id': ALL, 'specifier': ALL}, 'value'),
+    State({'type': 'multiinput', 'id': ALL, 'specifier': False}, 'value')
 )
-def upload_simulation(contents, ids, ids2):
+def upload_simulation(contents, ids, ids2, state1, state2):
     if contents is None:
         raise PreventUpdate
     else:
-        content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string)
-        j_file = json.load(io.StringIO(decoded.decode('utf-8')))
+        try:
+            content_type, content_string = contents.split(',')
+            decoded = base64.b64decode(content_string)
+            j_file = json.load(io.StringIO(decoded.decode('utf-8')))
+            print(j_file)
 
-        list_ids = [id_l['id'] for id_l in ids]
-        list_ids2 = [id_l['id'] for id_l in ids2]
-        dict_ids = {id_l: num for num, id_l in enumerate(list_ids)}
-        dict_ids2 = {id_l: num for num, id_l in enumerate(list_ids2)}
+            list_ids = [id_l['id'] for id_l in ids]
+            list_ids2 = [id_l['id'] for id_l in ids2]
+            print(list_ids)
+            dict_ids = {id_l: num for num, id_l in enumerate(list_ids)}
+            dict_ids2 = {id_l: num for num, id_l in enumerate(list_ids2)}
 
-        for k, v in j_file.items():
-            if isinstance(v, list):
-                for num, key in enumerate(list(['a', 'b'])):
-                    dict_ids2[k+key] = v[num]
-            else:
-                if isinstance(v, bool):
-                    if v is True:
-                        dict_ids[k] = [1]
-                    else:
-                        dict_ids[k] = []
+            for k, v in j_file.items():
+                if isinstance(v, list):
+                    for num, val in enumerate(v):
+                        dict_ids2[k+f'_{num}'] = val
                 else:
-                    dict_ids[k] = v
+                    if isinstance(v, bool):
+                        if v is True:
+                            dict_ids[k] = [1]
+                        else:
+                            dict_ids[k] = []
+                    else:
+                        dict_ids[k] = v
 
-        return list(dict_ids.values()), list(dict_ids2.values()), None
+            return list(dict_ids.values()), list(dict_ids2.values()), None
+        except Exception:
+            return state1, state2, None
 
 
 if __name__ == "__main__":

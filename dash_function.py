@@ -33,12 +33,30 @@ def unstringify(val):
         yield val
 
 
-def multi_inputs(inputs):
-    input_list = []
-    for num, val in enumerate(inputs):
-        if (num % 2) != 0:
-            input_list.append(inputs[num - 1:num + 1])
-    return input_list
+# def multi_inputs(inputs):
+#     input_list = []
+#     for num, val in enumerate(inputs):
+#         if (num % 2) != 0:
+#             input_list.append(inputs[num - 1:num + 1])
+#     return input_list
+
+
+def multi_inputs(dicts):
+    dict_list = {}
+    for k, v in dicts.items():
+        if k[-2:-1] != '_':
+            dict_list.update({k: v})
+        else:
+            if k[:-2] not in dict_list:
+                dict_list.update({k[:-2]: v})
+            elif k[:-2] in dict_list:
+                if not isinstance(dict_list[k[:-2]], list):
+                    new_list = [dict_list[k[:-2]]]
+                else:
+                    new_list = dict_list[k[:-2]]
+                new_list.append(v)
+                dict_list.update({k[:-2]: new_list})
+    return dict_list
 
 
 def dict_inputs(value='', ids=''):

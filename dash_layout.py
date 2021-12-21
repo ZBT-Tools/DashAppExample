@@ -38,6 +38,10 @@ def val_container(ids, types='output', specifier=False):
     return inputs
 
 
+def flatten(t):
+    return [item for sublist in t for item in sublist]
+
+
 def spacing(label, unit):
     """
     label: xs=33%, s=38%, m=45%, l=50%, xl=70%
@@ -74,9 +78,75 @@ def type_input(comp_type, check_val, **kwargs):
         raise NotImplementedError('Type of Component not implemented')
 
 
+def id_val_to_dict(label, ids, vals, number):
+    if isinstance(number, str):
+        number = 1
+
+    id_list = [ids] if not isinstance(ids, list) else ids
+    if number != len(id_list):
+        if isinstance(id_list[0], list):
+            id_list = \
+                [new_id for sublist in id_list for new_id in sublist
+                 if isinstance(new_id, str)]
+        else:
+            id_list = [i_d+f'_{num}' for i_d in id_list
+                           for num in range(number)]
+    val_list = [vals] if not isinstance(vals, list) else vals
+    if number != len(val_list):
+        if isinstance(val_list[0], list):
+            val_list = val_list
+        elif len(val_list) == 1:
+            val_list = val_list * number
+        else:
+            raise ValueError(f'Number of IDs from {label} does not match with'
+                             f' number of value in the list')
+    dict_ids = {}
+    if len(id_list) == len(val_list):
+        if isinstance(val_list[0], list):
+            dict_id = [{id_key + f'_{num}': val_value[num] for num, key
+                        in enumerate(val_value)} for id_key, val_value
+                       in zip(id_list, val_list)]
+            [dict_ids.update(d) for d in dict_id]
+        else:
+            [dict_ids.update({id_l: v_l}) for id_l, v_l in
+             zip(id_list, val_list)]
+    else:
+        raise IndexError(f'List of ID from {label} does not match with list of '
+                         f'value')
+
+    return dict_ids
+
+
+def frame(tab_dict):
+    if 'sub_frame_dicts' in tab_dict:
+        return html.Div([sub_frame(subframe) for subframe in
+                         tab_dict['sub_frame_dicts']])
+
+
+def sub_frame(sub_frame_dict):
+    if 'sub_frame_dicts' in sub_frame_dict:
+        if sub_frame_dict['children']:
+            return html.Div(
+                [html.Div(children=sub_frame_dict['children'],
+                          className=sub_frame_dict['className'])] + \
+                [html.Div([sub_frame(subframe) for subframe in
+                           sub_frame_dict['sub_frame_dicts']])])
+        else:
+            return html.Div([sub_frame(subframe) for subframe in
+                             sub_frame_dict['sub_frame_dicts']])
+
+    elif 'widget_dicts' in sub_frame_dict:
+        size = {'size_label': sub_frame_dict['size_label']}
+        return html.Div(
+            [html.Div(children=sub_frame_dict['children'],
+                      className=sub_frame_dict['className'])] + \
+            [row_input(**{**widget, **size})
+             for widget in sub_frame_dict['widget_dicts']])
+
+
 def row_input(label='', ids='', value='', widget='input', unit='', options='',
               activated=False, size_label='s', size_unit='s', types='input',
-              specifier=False, disabled=False,  **kwargs):
+              specifier=False, disabled=False, number='', **kwargs):
     """
     label: str; ids: str/list of strs for each input ids; value: int/float;
     widget: checklist, dropdown, or label, if not set then input will be set;
@@ -87,13 +157,9 @@ def row_input(label='', ids='', value='', widget='input', unit='', options='',
     specifier: id callback more specific, usually widget is set as specifier,
     but more specific specifier can be initialised
     """
+    dict_ids = \
+        id_val_to_dict(label, ids, value, number) if widget == 'input' else {}
     id_list = [ids] if not isinstance(ids, list) else ids
-    new_val = [value] if not isinstance(value, list) else value
-    # val_list = []
-    if len(new_val) != len(id_list):
-        val_list = new_val * len(id_list)
-    else:
-        val_list = new_val
 
     s_label, s_unit = spacing(size_label, size_unit)
     p_input = 100-(s_label['p']+s_unit['p'])
@@ -102,10 +168,12 @@ def row_input(label='', ids='', value='', widget='input', unit='', options='',
     if widget == 'input':
         children = \
             [dbc.Input(
-                id={'type': types, 'id': input_id, 'specifier': specifier},
+                id={'type': types, 'id': input_id, 'specifier':
+                    specifier},
                 persistence=True, persistence_type="memory", value=val,
-                debounce=True, className='val_input', disabled=disabled,
-                **kwargs) for input_id, val in zip(id_list, val_list)]
+                debounce=True, className='val_input', disabled=disabled)
+                for (input_id, val) in
+                zip(list(dict_ids.keys()), list(dict_ids.values()))]
     elif widget == 'dropdown':
         children = \
             [dbc.Col(dcc.Dropdown(
@@ -144,4 +212,6 @@ def row_input(label='', ids='', value='', widget='input', unit='', options='',
 
     return inputs
 
+#
+# print(flatten([[54, 54], [60, 60]]))
 

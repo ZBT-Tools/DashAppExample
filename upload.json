@@ -1,12 +1,12 @@
 {
-  "input_1" : 0.5,
-  "input_2" : 2.3,
-  "input_3" : 4.5,
-  "input_4" : 100.0,
-  "input2_1" : [0.82, 0.82],
-  "input3_1" : [1.5, 1.5],
-  "input3_2" : [1.5, 1.5],
-  "checklist" : true,
+  "input1" : 0.5,
+  "input2" : 2.3,
+  "input3" : 5.5,
+  "input4" : 10000.0,
+  "input5" : [0.82, 0.82],
+  "input6a" : [1.5, 1.5],
+  "input6b" : [1.5, 2.5],
+  "checklist" : false,
   "dropdown1" : "SG",
   "dropdown2" : "SF"
 }

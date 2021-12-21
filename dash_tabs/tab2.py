@@ -62,3 +62,59 @@ def visibility_dropdown(checklist):
         style = [{'display': 'none'}]
 
     return style, disabled
+
+#
+# y =Div(children=
+#        [Div(children='Type: Input, Specifier: False', className='title divider'),
+#         Div(children=[Label(children='Input_1', className='label-param-xl g-0'),
+#                       Div(children=[Input(id={'type': 'input', 'id': 'input_1', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.17)], className='centered r_flex g-0', style={'width': '25%'}),
+#                       Div(children='-', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#         Div(children=[Label(children='Input_2', className='label-param-xl g-0'),
+#                       Div(children=[Input(id={'type': 'input', 'id': 'input_2', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.04)], className='centered r_flex g-0', style={'width': '25%'}),
+#                       Div(children='', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#         Div(children=[Label(children='Input_3', className='label-param-xl g-0'),
+#                       Div(children=[Input(id={'type': 'input', 'id': 'input_3', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.04)], className='centered r_flex g-0', style={'width': '25%'}),
+#                       Div(children='m', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#         Div(children=[Label(children='Input_4', className='label-param-xl g-0'),
+#                       Div(children=[Input(id={'type': 'input', 'id': 'input_4', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.02)], className='centered r_flex g-0', style={'width': '25%'}),
+#                       Div(children='m²', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#         Div(children='Type: Input, Specifier: 1 Output Component with 2 Inputs', className='title divider'),
+#         Div(Div(children=[Label(children='Input2', className='label-param-l g-0'),
+#                           Div(children=[Input(id={'type': 'multiinput', 'id': 'input2_1a', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.48),
+#                                         Input(id={'type': 'multiinput', 'id': 'input2_1b', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.48)], className='centered r_flex g-0', style={'width': '45%'}),
+#                           Div(children='km', className='ufontm centered g-0')], className='row-lay r_flex g-0')),
+#         Div(children='Type: Input, Specifier: 2 Output Components with 4 Inputs', className='title divider'),
+#         Div(Div(children=[Label(children='Input3', className='label-param-m g-0'),
+#                           Div(children=[Input(id={'type': 'multiinput', 'id': 'input3_1a', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.17),
+#                                         Input(id={'type': 'multiinput', 'id': 'input3_2a', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.17),
+#                                         Input(id={'type': 'multiinput', 'id': 'input3_1b', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.17),
+#                                         Input(id={'type': 'multiinput', 'id': 'input3_2b', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.17)],
+#                               className='centered r_flex g-0', style={'width': '50%'}),
+#                           Div(children='s', className='ufontm centered g-0')], className='row-lay r_flex g-0'))], className='neat-spacing')
+#
+# x = Div(children=
+#         Div([Div([Div(children=[Label(children='Input_1', className='label-param-xl g-0'),
+#                                 Div(children=
+#                                     [Input(id={'type': 'input', 'id': 'input_1', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.29)], className='centered r_flex g-0', style={'width': '25%'}),
+#                                 Div(children='-', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#                   Div(children=[Label(children='Input_2', className='label-param-xl g-0'),
+#                                 Div(children=
+#                                     [Input(id={'type': 'input', 'id': 'input_2', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=1.0)], className='centered r_flex g-0', style={'width': '25%'}),
+#                                 Div(children='', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#                   Div(children=[Label(children='Input_3', className='label-param-xl g-0'),
+#                                 Div(children=
+#                                     [Input(id={'type': 'input', 'id': 'input_3', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.85)], className='centered r_flex g-0', style={'width': '25%'}),
+#                                 Div(children='m', className='ufontm centered g-0')], className='row-lay r_flex g-0'),
+#                   Div(children=[Label(children='Input_4', className='label-param-xl g-0'),
+#                                 Div(children=
+#                                     [Input(id={'type': 'input', 'id': 'input_4', 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.45)], className='centered r_flex g-0', style={'width': '25%'}),
+#                                 Div(children='m²', className='ufontm centered g-0')], className='row-lay r_flex g-0')]),
+#              Div([Div(children=[Label(children='Input2', className='label-param-l g-0'),
+#                                 Div(children=
+#                                     [Input(id={'type': 'multiinput', 'id': 0, 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.48),
+#                                      Input(id={'type': 'multiinput', 'id': 1, 'specifier': False}, className='val_input', debounce=True, disabled=False, persistence=True, persistence_type='memory', value=0.48)], className='centered r_flex g-0', style={'width': '45%'}),
+#                                 Div(children='km', className='ufontm centered g-0')], className='row-lay r_flex g-0')]),
+#              Div([Div(children=[Label(children='Input3', className='label-param g-0'),
+#                                 Div(children=[], className='centered r_flex g-0', style={'width': '57%'}),
+#                                 Div(children='m', className='ufontm centered g-0')], className='row-lay r_flex g-0')])]), className='neat-spacing')
+
