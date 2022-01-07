@@ -22,7 +22,7 @@ tab_layout = \
             style={'justify-content': 'center',
                    'margin-left': '20%', 'display': 'flex'}),
             html.Div(dcc.Dropdown(
-                id={'type': 'input', 'id': 'dropdown1',
+                id={'type': 'input', 'id': 'dropdown-1',
                     'specifier': 'visibility'},
                 options=[{'label': 'Kuala Lumpur', 'value': 'KL'},
                          {'label': 'Singapore', 'value': 'SG'},
@@ -30,7 +30,7 @@ tab_layout = \
                 id={'type': 'container', 'id': 'dropdown1', 'specifier':
                     'visibility'}),
             html.Div(dcc.Dropdown(
-                id={'type': 'input', 'id': 'dropdown2',
+                id={'type': 'input', 'id': 'dropdown-2',
                     'specifier': 'disabled'},
                 options=[{'label': 'New York City', 'value': 'NYC'},
                          {'label': 'Montreal', 'value': 'MTL'},

@@ -318,7 +318,7 @@ body {
   padding: 5px;
 }
 .bolded{
-  font-weight= bold;
+  font-weight: bold;
 }
 
 .title {
@@ -330,10 +330,9 @@ body {
   font-size:small;
 }
 .section {
-  margin-top: 15px;
-  margin-bottom : 10px;
-  font-size: small;
-  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom : 5px;
+  font-size: 13px;
   text-align: left;
 }
 .divider{

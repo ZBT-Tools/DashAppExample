@@ -6,6 +6,7 @@ import json
 import copy
 import collections
 from glom import glom
+from upload import upload
 
 
 def unstringify(val):
@@ -147,22 +148,44 @@ def gen_dict_extract(key, var):
                 yield result
 
 
-# def parse_contents(contents):
-#     content_type, content_string = contents.split(',')
-#
-#     decoded = base64.b64decode(content_string)
-#     try:
-#         j_file = json.load(io.StringIO(decoded.decode('utf-8')))
-#         source_dict = copy.deepcopy(gui.input.main_frame_dicts)
-#         target_dict = copy.deepcopy(input_dicts.sim_dict)
-#
-#         settings, name_lists = \
-#             gui.data_transfer.gui_to_sim_transfer(source_dict, target_dict)
-#         js_out = {'-'.join(n): glom(j_file, '.'.join(n)) for
-#                   n in name_lists if 'loss' not in n[-1] and 'directory' not
-#                   in n[-1] and 'calc_current_density' not in n[-1] and
-#                   'calc_temperature' not in n[-1]}
-#         return js_out
-#     except Exception as e:
-#         return f'Error {e}'
-#         # return f'{e}: There was an error processing this file.'
+def parse_contents(contents):
+    content_type, content_string = contents.split(',')
+    name_list = upload
+
+    decoded = base64.b64decode(content_string)
+    j_file = json.load(io.StringIO(decoded.decode('utf-8')))
+    js_out = {'-'.join(n): glom(j_file, '.'.join(n)) for n in name_list}
+    # j_file = json.load(io.StringIO(decoded.decode('utf-8')))
+    # source_dict = copy.deepcopy(gui.input.main_frame_dicts)
+    # target_dict = copy.deepcopy(input_dicts.sim_dict)
+    #
+    # settings, name_lists = \
+    #     gui.data_transfer.gui_to_sim_transfer(source_dict, target_dict)
+    # js_out = {'-'.join(n): glom(j_file, '.'.join(n)) for
+    #           n in name_lists if 'loss' not in n[-1] and 'directory' not
+    #           in n[-1] and 'calc_current_density' not in n[-1] and
+    #           'calc_temperature' not in n[-1]}
+
+    return js_out
+
+
+def process_inputs(inputs, multiinputs, id_inputs, id_multiinputs):
+    new_inputs = []
+    for val in inputs + multiinputs:
+        new_val = list(unstringify(val))[0]
+
+        if isinstance(new_val, list):
+            if len(new_val) == 0:
+                new_val = bool(new_val)
+            else:
+                if len(new_val) == 1 and new_val[0] == 1:
+                    new_val = bool(new_val)
+        new_inputs.append(new_val)
+
+    new_ids = [id_l['id'] for id_l in id_inputs] + \
+              [id_l['id'] for id_l in id_multiinputs]
+    dict_data = {}
+    for id_l, v_l in zip(new_ids, new_inputs):
+        dict_data.update({id_l: v_l})
+    new_dict_data = multi_inputs(dict_data)
+    return new_dict_data
