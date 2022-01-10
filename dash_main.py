@@ -176,7 +176,7 @@ def save_simulation(n_clicks, ids, ids2, val1, val2):
                         current_level[part] = vals
                 current_level = current_level[part]
 
-        return dict(content=json.dumps(new_dict, indent=2),
+        return dict(content=json.dumps(new_dict, sort_keys=True, indent=2),
                     filename="test.json"), None
 
 
